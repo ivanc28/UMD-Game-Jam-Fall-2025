@@ -37,8 +37,8 @@ public abstract class EnergyMove : MonoBehaviour
             cooldownRemaining--;
         }
 
-        if (Input.GetKeyUp(key) && CanUse())
-        {
+        if (Input.GetKeyUp(key) && CanUse() && EnergyMeter.Instance().Deplete(energyCost))
+        {   
             Activate();
             ResetCooldown();
         }
