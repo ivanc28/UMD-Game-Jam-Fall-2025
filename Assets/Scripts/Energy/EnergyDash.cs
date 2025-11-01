@@ -23,8 +23,9 @@ public class EnergyDash : EnergyMove
         }
     }
 
-    protected override void GetComponents()
+    protected override void Initialize()
     {
         playerRb = GetComponent<Rigidbody2D>();
+        direction = Vector2.right;
     }
 }
