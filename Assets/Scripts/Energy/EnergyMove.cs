@@ -4,19 +4,20 @@ using UnityEngine;
 
 public abstract class EnergyMove : MonoBehaviour
 {
-    [Tooltip("Keycode that activates move")]
     /// <summary>
     /// input key that triggers the move
     /// </summary>
+    [Tooltip("Keycode that activates move")]
     public KeyCode key;
 
     [Tooltip("Energy consumed upon triggering move")]
     public int energyCost;
 
-    [Tooltip("Cooldown in quantities of ticks")]
+
     /// <summary>
     /// How many ticks before move can be used again.
     /// </summary>
+    [Tooltip("Cooldown in quantities of ticks")]
     public int cooldown;
 
     // TODO: Should we use cooldowns or a CanUse flag for when after ur grounded?
@@ -41,15 +42,14 @@ public abstract class EnergyMove : MonoBehaviour
     protected virtual void Initialize() { }
 
 
-    // Update is called once per frame
-    public void Update()
+    public void FixedUpdate()
     {
         if(cooldownRemaining > 0)
         {
             cooldownRemaining--;
         }
 
-        if (Input.GetKeyUp(key) && CanUse() && EnergyMeter.Instance().Deplete(energyCost))
+        if (Input.GetKeyDown(key) && CanUse() && EnergyMeter.Instance().Deplete(energyCost))
         {   
             Activate();
             ResetCooldown();
@@ -57,6 +57,9 @@ public abstract class EnergyMove : MonoBehaviour
         MoveUpdate();
     }
 
+    /// <summary>
+    /// Override method for inheriting classes to add their own code to update during FixedUpdate
+    /// </summary>
     protected virtual void MoveUpdate() { }
 
     protected void ResetCooldown()
