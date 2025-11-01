@@ -26,7 +26,7 @@ public abstract class EnergyMove : MonoBehaviour
     /// <summary>
     /// Called at start to grab component references
     /// </summary>
-    protected virtual void GetComponents() { };
+    protected virtual void GetComponents() { }
 
 
     // Update is called once per frame
@@ -45,7 +45,7 @@ public abstract class EnergyMove : MonoBehaviour
         MoveUpdate();
     }
 
-    protected virtual void MoveUpdate() { };
+    protected virtual void MoveUpdate() { }
 
     protected void ResetCooldown()
     {
