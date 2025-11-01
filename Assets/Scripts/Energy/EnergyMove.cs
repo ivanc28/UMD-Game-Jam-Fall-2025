@@ -42,7 +42,10 @@ public abstract class EnergyMove : MonoBehaviour
             Activate();
             ResetCooldown();
         }
+        MoveUpdate();
     }
+
+    protected abstract void MoveUpdate();
 
     protected void ResetCooldown()
     {
