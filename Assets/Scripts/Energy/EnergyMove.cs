@@ -18,10 +18,15 @@ public abstract class EnergyMove : MonoBehaviour
     protected int cooldownRemaining;
     
     // Start is called before the first frame update
-    public void InitCooldown()
+    public void Start()
     {
         cooldownRemaining = 0;
     }
+
+    /// <summary>
+    /// Called at start to grab component references
+    /// </summary>
+    protected abstract void GetComponents();
 
 
     // Update is called once per frame
