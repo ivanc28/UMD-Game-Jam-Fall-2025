@@ -21,12 +21,13 @@ public abstract class EnergyMove : MonoBehaviour
     public void Start()
     {
         cooldownRemaining = 0;
+        Initialize();
     }
 
     /// <summary>
     /// Called at start to grab component references
     /// </summary>
-    protected virtual void GetComponents() { }
+    protected virtual void Initialize() { }
 
 
     // Update is called once per frame
