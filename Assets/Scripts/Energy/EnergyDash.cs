@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,26 +7,53 @@ using UnityEngine;
 
 public class EnergyDash : EnergyMove
 {
+    [Tooltip("Speed of dash")]
+    public float speed;
+    [Tooltip("Duration (in ticks) of dash")]
+    public int duration;
+
+    private float direction;
+    private Player player;
     private Rigidbody2D playerRb;
-    public Vector2 direction;
-    public float power;
+    private int remainingDuration;
+    private bool dashing;
 
     public override void Activate()
     {
-        playerRb.AddForce(direction * power);
+        Debug.Log("Activated");
+        playerRb.velocity = new Vector2(direction * speed, 0);
+        remainingDuration = duration;
+        dashing = true;
+        player.DisableMovementControl();
     }
 
     protected override void MoveUpdate()
     {
-        if (playerRb.velocity.magnitude > 0)
+        if (dashing)
         {
-            direction = (Vector2.Dot(playerRb.velocity, Vector2.right) * Vector2.right).normalized;
+            if (remainingDuration > 0)
+            {
+                remainingDuration--;
+            }
+            else
+            {
+                player.EnableMovementControl();
+                dashing = false; // flag to stop continuously calling this
+            }
         }
+        else if (Math.Abs(playerRb.velocity.x) > 0)
+        {
+            direction = Mathf.Clamp(playerRb.velocity.x, -1, 1);
+        }
+        
     }
 
     protected override void Initialize()
     {
         playerRb = GetComponent<Rigidbody2D>();
-        direction = Vector2.right;
+        player = GetComponent<Player>();
+        direction = 1;
+        remainingDuration = 0;
+        dashing = false;
     }
 }

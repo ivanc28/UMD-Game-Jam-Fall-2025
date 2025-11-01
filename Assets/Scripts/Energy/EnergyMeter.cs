@@ -13,22 +13,22 @@ public class EnergyMeter : MonoBehaviour
     /// </summary>
     public int curEnergy { get; private set; }
 
-    [Tooltip("Max energy a player can hold")]
     /// <summary>
     /// max energy a player can hold
     /// </summary>
+    [Tooltip("Max energy a player can hold")]
     public int maxEnergy;
 
-    [Tooltip("How much energy can deplete per tick")]
     /// <summary>
     /// how much energy can deplete per tick
     /// </summary>
+    [Tooltip("How much energy can deplete per tick")]
     public int energyDecay;
 
-    [Tooltip("How much energy can regenerate per tick")]
     /// <summary>
     /// how much energy can regenerate per tick
     /// </summary>
+    [Tooltip("How much energy can regenerate per tick")]
     public int energyRecovery;
 
     static EnergyMeter instance;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,8 @@ public class Player : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] float moveSpeed;
-    int dir = 1;
+    public int dir { get; private set; }
+    bool canMove;
     [Header("Jumping")]
     [SerializeField] float jumpSpeed;
     [SerializeField] float stopJumpSpeed;
@@ -29,34 +31,41 @@ public class Player : MonoBehaviour
     {
         coyoteTimer = setCoyoteTime;
         rb = GetComponent<Rigidbody2D>();
+        dir = 1;
+        canMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         // Movement
-        rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y);
-        // Set direction
-        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            SetDir(1);
-        }
-        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            SetDir(-1);
+        if(canMove) {
+            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y);
+            // Set direction
+            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                SetDir(1);
+            }
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                SetDir(-1);
+            }
         }
 
         // On the ground if player's feet is touching object with 'Ground' layer
         grounded = Physics2D.OverlapCircle(feetPos.position, circleRadius, groundObjects);
-        // Jump
-        if (Input.GetKeyDown(KeyCode.Space) && (grounded || canCoyoteJump))
+        if (canMove)
         {
-            Jump();
-        }
-        // Stop jump when let go of space
-        if((Input.GetKeyUp(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)) && rb.velocity.y > stopJumpSpeed)
-        {
-            StopJump();
+            // Jump
+            if (Input.GetKeyDown(KeyCode.Space) && (grounded || canCoyoteJump))
+            {
+                Jump();
+            }
+            // Stop jump when let go of space
+            if ((Input.GetKeyUp(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow)) && rb.velocity.y > stopJumpSpeed)
+            {
+                StopJump();
+            }
         }
 
         // Adjust gravity scale
@@ -118,5 +127,15 @@ public class Player : MonoBehaviour
     void SetGravityScale(float gravityScale)
     {
         rb.gravityScale = gravityScale;
+    }
+
+    public void EnableMovementControl()
+    {
+        canMove = true;
+    }
+
+    public void DisableMovementControl()
+    {
+        canMove = false;
     }
 }
