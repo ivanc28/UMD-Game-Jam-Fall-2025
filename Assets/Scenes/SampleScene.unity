@@ -1535,7 +1535,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: 304
   energyCost: 10
-  cooldown: 30
+  cooldown: 25
   speed: 20
   duration: 25
 --- !u!1 &1512415583

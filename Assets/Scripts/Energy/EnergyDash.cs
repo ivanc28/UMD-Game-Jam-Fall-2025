@@ -20,7 +20,6 @@ public class EnergyDash : EnergyMove
 
     public override void Activate()
     {
-        Debug.Log("Activated");
         playerRb.velocity = new Vector2(direction * speed, 0);
         remainingDuration = duration;
         dashing = true;

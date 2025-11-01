@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public abstract class EnergyMove : MonoBehaviour
 {
     /// <summary>
@@ -31,8 +30,9 @@ public abstract class EnergyMove : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        consumed = false;
+        //consumed = false;
         cooldownRemaining = 0;
+        
         Initialize();
     }
 
@@ -42,6 +42,15 @@ public abstract class EnergyMove : MonoBehaviour
     protected virtual void Initialize() { }
 
 
+    public void Update()
+    {
+        if (Input.GetKeyDown(key) && CanUse() && EnergyMeter.Instance().Deplete(energyCost))
+        {
+            ResetCooldown();
+            Activate();
+        }
+    }
+
     public void FixedUpdate()
     {
         if(cooldownRemaining > 0)
@@ -49,11 +58,7 @@ public abstract class EnergyMove : MonoBehaviour
             cooldownRemaining--;
         }
 
-        if (Input.GetKeyDown(key) && CanUse() && EnergyMeter.Instance().Deplete(energyCost))
-        {   
-            Activate();
-            ResetCooldown();
-        }
+        
         MoveUpdate();
     }
 
