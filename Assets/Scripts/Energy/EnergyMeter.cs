@@ -11,17 +11,23 @@ public class EnergyMeter : MonoBehaviour
     /// <summary>
     /// current energy value held by player
     /// </summary>
-    public int curEnergy;
+    public int curEnergy { get; private set; }
+
+    [Tooltip("Max energy a player can hold")]
     /// <summary>
     /// max energy a player can hold
     /// </summary>
     public int maxEnergy;
+
+    [Tooltip("How much energy can deplete per tick")]
     /// <summary>
-    /// how much energy depletes per tick
+    /// how much energy can deplete per tick
     /// </summary>
     public int energyDecay;
+
+    [Tooltip("How much energy can regenerate per tick")]
     /// <summary>
-    /// how much energy regenerates per tick
+    /// how much energy can regenerate per tick
     /// </summary>
     public int energyRecovery;
 
@@ -35,25 +41,17 @@ public class EnergyMeter : MonoBehaviour
         if(instance == null)
         {
             instance = FindFirstObjectByType<EnergyMeter>();
+            if(instance == null)
+            {
+                Debug.LogError("You do not have an EnergyMeter class instance in this scene!");
+            }
         }
-        else
-        {
-            Debug.LogError("You do not have an EnergyMeter class instance in this scene!");
-        }
+
         return instance;
     }
 
-    /// <summary>
-    /// EnergyMeter Constructor. Is this needed?
-    /// </summary>
-    /// <param name="maxEnergy"></param>
-    /// <param name="energyDecay"></param>
-    /// <param name="energyRecovery"></param>
-    public EnergyMeter(int maxEnergy, int energyDecay, int energyRecovery)
+    public void Start()
     {
-        this.maxEnergy = maxEnergy;
-        this.energyDecay = energyDecay;
-        this.energyRecovery = energyRecovery;
         curEnergy = maxEnergy;
     }
 
@@ -94,7 +92,7 @@ public class EnergyMeter : MonoBehaviour
     /// <returns>true if curEnergy is greater than or equal to amount, <br></br> false if curEnergy is less than amount </returns>
     public bool Deplete(int amount)
     {
-        if (curEnergy > amount)
+        if (curEnergy >= amount)
         {
             curEnergy -= amount;
             return true;
