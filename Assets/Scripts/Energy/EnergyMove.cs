@@ -84,7 +84,7 @@ public abstract class EnergyMove : MonoBehaviour
 
     protected bool CanUse()
     {
-        return cooldownRemaining == 0;
+        return cooldownRemaining == 0 && Player.Instance.canDash;
         // return !consumed;
     }
 

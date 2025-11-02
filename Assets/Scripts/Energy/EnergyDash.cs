@@ -26,8 +26,10 @@ public class EnergyDash : EnergyMove
     {
         remainingDuration = duration;
         dashing = true;
+        player.canDash = false;
         
         player.DisableMovementControl();
+        player.SetGravityScale(0);
 
         Vector2 direction = Vector2.right * (player.dir);
         Quaternion rotation = Quaternion.Euler(0, 0, 90 + (player.dir * 90));
@@ -56,6 +58,7 @@ public class EnergyDash : EnergyMove
             else
             {
                 player.EnableMovementControl();
+                player.SetGravityScale(player.defaultGravity);
                 dashing = false; // flag to stop continuously calling this
             }
         }

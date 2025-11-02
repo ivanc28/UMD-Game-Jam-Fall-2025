@@ -17,8 +17,10 @@ public class Player : MonoBehaviour
     [SerializeField] float circleRadius;
     [SerializeField] LayerMask groundObjects;
     [SerializeField] Transform feetPos;
-    [SerializeField] float defaultGravity;
+    [SerializeField] public float defaultGravity;
     [SerializeField] float fallingGravity;
+
+    [HideInInspector] public bool canDash;
     [Header("Coyote Time")]
     bool canCoyoteJump;
     [SerializeField] float setCoyoteTime;
@@ -80,20 +82,25 @@ public class Player : MonoBehaviour
         }
 
         // Adjust gravity scale
-        if(rb.velocity.y > 0)
+        if(canMove)
         {
-            SetGravityScale(defaultGravity);
-        }
-        else
-        {
-            SetGravityScale(fallingGravity);
+            if (rb.velocity.y > 0)
+            {
+                SetGravityScale(defaultGravity);
+            }
+            else
+            {
+                SetGravityScale(fallingGravity);
+            }
         }
 
-        // Coyote Jump
         if(grounded)
         {
+            // Coyote Jump
             coyoteTimer = setCoyoteTime;
             canCoyoteJump = true;
+            // Reset Dash
+            canDash = true;
         }
         else
         {
@@ -135,7 +142,7 @@ public class Player : MonoBehaviour
         dir = direction;
     }
     // Set the gravity of the player
-    void SetGravityScale(float gravityScale)
+    public void SetGravityScale(float gravityScale)
     {
         rb.gravityScale = gravityScale;
     }
