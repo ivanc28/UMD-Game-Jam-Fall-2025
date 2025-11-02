@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class LightProjectile : MonoBehaviour
     /// <summary>
     /// direction of projectile
     /// </summary>
-    public Vector2 direction;
+    private Vector2 direction;
 
     /// <summary>
     /// speed of projectile in meters per second
@@ -40,7 +41,10 @@ public class LightProjectile : MonoBehaviour
     private void Start()
     {
         expiring = false;
-        Debug.Log("Projectile direction: " + direction);
+        //lol quaternions
+        direction = Vector2.right * (float)Math.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z); 
+        transform.rotation = Quaternion.identity; // realigns gameobject to have 0 rotation (prolly not needed
+        Debug.Log("Direction: " + direction);
     }
 
 
@@ -76,4 +80,6 @@ public class LightProjectile : MonoBehaviour
         expiring = true;
         Destroy(gameObject);
     }
+
+    
 }

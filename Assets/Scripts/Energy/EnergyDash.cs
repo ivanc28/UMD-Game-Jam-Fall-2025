@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -29,16 +30,13 @@ public class EnergyDash : EnergyMove
         player.DisableMovementControl();
 
         Vector2 direction = Vector2.right * (player.dir);
+        Quaternion rotation = Quaternion.Euler(0, 0, 90 + (player.dir * 90));
 
-        GameObject proj = Instantiate(projectilePrefab);
-        LightProjectile projComp = projectilePrefab.GetComponent<LightProjectile>();
         playerRb.velocity = direction * speed;
-        projComp.direction = direction * -1;
-        proj.transform.position = transform.position;
 
-
-        Debug.Log("Dashing in direction:" + playerRb.velocity.normalized);
-        Debug.Log("Shooting Projectile in direction:" + projComp.direction);
+        Debug.Log("Calculated rotation is:" + rotation.eulerAngles.z);
+        Debug.Log("Shooting Projectile in direction:" + Vector2.right * (float)Math.Cos(Mathf.Deg2Rad *rotation.eulerAngles.z));
+        GameObject proj = Instantiate(projectilePrefab, transform.position, rotation);
 
     }
 
