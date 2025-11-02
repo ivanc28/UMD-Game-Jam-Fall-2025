@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] float moveSpeed;
-    public int dir { get; private set; }
+    public int dir;
     bool canMove;
     [Header("Jumping")]
     [SerializeField] float jumpSpeed;
@@ -26,6 +26,17 @@ public class Player : MonoBehaviour
 
     [Header("Components")]
     Rigidbody2D rb;
+
+    // Singleton
+    private static Player instance;
+    public static Player Instance
+    {
+        get
+        {
+            if (instance == null) instance = GameObject.FindObjectOfType<Player>();
+            return instance;
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
