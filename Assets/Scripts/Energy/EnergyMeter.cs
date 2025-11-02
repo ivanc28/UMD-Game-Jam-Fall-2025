@@ -86,6 +86,15 @@ public class EnergyMeter : MonoBehaviour
     }
 
     /// <summary>
+    /// For Debugging. Recovers by amount
+    /// </summary>
+    /// <param name="amount"></param>
+    public void Recover(int amount)
+    {
+        curEnergy += amount;
+    }
+
+    /// <summary>
     /// Reduces curEnergy by amount. Returns whether depletion was successful.
     /// </summary>
     /// <param name="amount">amount of energy to deplete</param>

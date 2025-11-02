@@ -13,6 +13,7 @@ public abstract class EnergyMove : MonoBehaviour
     public int energyCost;
 
 
+
     /// <summary>
     /// How many ticks before move can be used again.
     /// </summary>
@@ -49,6 +50,8 @@ public abstract class EnergyMove : MonoBehaviour
             ResetCooldown();
             Activate();
         }
+
+        MoveUpdate();
     }
 
     public void FixedUpdate()
@@ -59,13 +62,15 @@ public abstract class EnergyMove : MonoBehaviour
         }
 
         
-        MoveUpdate();
+        MoveFixedUpdate();
     }
 
     /// <summary>
     /// Override method for inheriting classes to add their own code to update during FixedUpdate
     /// </summary>
+    protected virtual void MoveFixedUpdate() { }
     protected virtual void MoveUpdate() { }
+
 
     protected void ResetCooldown()
     {

@@ -22,17 +22,17 @@ public class LightProjectile : MonoBehaviour
     public Vector2 direction;
 
     /// <summary>
-    /// speed of projectile in meters per tick
+    /// speed of projectile in meters per second
     /// </summary>
     public float speed;
 
     /// <summary>
-    /// duration (in seconds) of projectile.
+    /// duration (in ticks) of projectile.
     /// </summary>
     public float duration;
 
     /// <summary>
-    /// flag for halting motino
+    /// flag for halting motion
     /// </summary>
     private bool expiring;
 
@@ -40,32 +40,32 @@ public class LightProjectile : MonoBehaviour
     private void Start()
     {
         expiring = false;
+        Debug.Log("Projectile direction: " + direction);
     }
 
 
-    void FixedUpdate()
+    void Update()
     {   
         if(!expiring)
         {
             if (duration <= 0)
             {
-                expiring = true;
                 Expire();
             }
             else
             {
-                transform.Translate(direction * speed);
+                transform.Translate(direction * speed * Time.deltaTime); // use rb?
             }
-            duration -= Time.deltaTime;
+            duration--;
         }
     }
 
     // Two cases, receivers, and non-receivers
     // colliding with receivers should call the receiver's respective intake method (TBI)
     // non receivers should cause the projectile to halt and expire.
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        expiring = true;
+        Expire();
     }
 
     /// <summary>
@@ -73,6 +73,7 @@ public class LightProjectile : MonoBehaviour
     /// </summary>
     private void Expire()
     {
+        expiring = true;
         Destroy(gameObject);
     }
 }
