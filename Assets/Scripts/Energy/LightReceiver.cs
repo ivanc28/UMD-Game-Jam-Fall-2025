@@ -11,16 +11,20 @@ public abstract class LightReceiver : MonoBehaviour
     public void Start()
     {
         curLight = 0;
+        Init();
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        LightProjectile lightProjectile = collision.gameObject.GetComponent<LightProjectile>();
-        if (lightProjectile != null)
-        {
-            Intake(lightProjectile);
-        }
-    }
+    public virtual void Init() { }
+
+    //public void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    Debug.Log("Received?");
+    //    LightProjectile lightProjectile = collision.gameObject.GetComponent<LightProjectile>();
+    //    if (lightProjectile != null)
+    //    {
+    //        Intake(lightProjectile);
+    //    }
+    //}
 
     public void Intake(LightProjectile lightProjectile)
     {

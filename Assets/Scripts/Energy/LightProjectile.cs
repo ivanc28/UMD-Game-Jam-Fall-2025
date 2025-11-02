@@ -37,6 +37,7 @@ public class LightProjectile : MonoBehaviour
     /// </summary>
     private bool expiring;
 
+    private Rigidbody2D rb;
 
     private void Start()
     {
@@ -44,7 +45,10 @@ public class LightProjectile : MonoBehaviour
         //lol quaternions
         direction = Vector2.right * (float)Math.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z); 
         transform.rotation = Quaternion.identity; // realigns gameobject to have 0 rotation (prolly not needed
-        Debug.Log("Direction: " + direction);
+        //Debug.Log("Direction: " + direction);
+        rb = GetComponent<Rigidbody2D>();
+        rb.velocity = direction * speed;
+
     }
 
 
@@ -56,10 +60,6 @@ public class LightProjectile : MonoBehaviour
             {
                 Expire();
             }
-            else
-            {
-                transform.Translate(direction * speed * Time.deltaTime); // use rb?
-            }
             duration--;
         }
     }
@@ -67,8 +67,15 @@ public class LightProjectile : MonoBehaviour
     // Two cases, receivers, and non-receivers
     // colliding with receivers should call the receiver's respective intake method (TBI)
     // non receivers should cause the projectile to halt and expire.
-    void OnCollisionEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
+        LightReceiver receiver = collision.gameObject.GetComponent<LightReceiver>();
+        if (receiver != null)
+        {
+            receiver.Intake(this);
+            Debug.Log("Hello?");
+        }
+        Debug.Log("Nope");
         Expire();
     }
 
