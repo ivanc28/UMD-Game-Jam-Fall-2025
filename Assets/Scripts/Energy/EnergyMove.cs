@@ -12,13 +12,14 @@ public abstract class EnergyMove : MonoBehaviour
     [Tooltip("Energy consumed upon triggering move")]
     public int energyCost;
 
-
-
     /// <summary>
     /// How many seconds before move can be used again.
     /// </summary>
     [Tooltip("Cooldown in seconds")]
     public float cooldown;
+
+    [Tooltip("Ability is deactivatable")]
+    public bool canDeactivate;
 
     // TODO: Should we use cooldowns or a CanUse flag for when after ur grounded?
     protected float cooldownRemaining;
@@ -45,23 +46,22 @@ public abstract class EnergyMove : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(key) && CanUse() && EnergyMeter.Instance().Deplete(energyCost))
+        if (Input.GetKeyDown(key) && CanUse() && (CanDeactivate() || EnergyMeter.Instance().Deplete(energyCost)))
         {
             ResetCooldown();
             Activate();
+        }
+
+        if (cooldownRemaining > 0)
+        {
+            cooldownRemaining -= Time.deltaTime;
         }
 
         MoveUpdate();
     }
 
     public void FixedUpdate()
-    {
-        if(cooldownRemaining > 0)
-        {
-            cooldownRemaining -= Time.deltaTime;
-        }
-
-        
+    {           
         MoveFixedUpdate();
     }
 
@@ -82,10 +82,15 @@ public abstract class EnergyMove : MonoBehaviour
     //    consumed = true;
     //}
 
-    protected bool CanUse()
+    protected virtual bool CanUse()
     {
-        return cooldownRemaining <= 0 && Player.Instance.canDash;
+        return cooldownRemaining <= 0;
         // return !consumed;
+    }
+
+    protected virtual bool CanDeactivate()
+    {
+        return false;
     }
 
     public abstract void Activate();

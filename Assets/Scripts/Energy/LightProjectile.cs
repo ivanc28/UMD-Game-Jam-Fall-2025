@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Collider2D))]
 
@@ -10,12 +12,8 @@ using UnityEngine;
 /// <br></br>
 /// Upon start, the projectile will constantly travel in it's direction vector. This projectile is not affected by gravity.
 /// </summary>
-public class LightProjectile : MonoBehaviour
-{
-    /// <summary>
-    /// light value of projectile. Used for accumulating light in light receivers.
-    /// </summary>
-    public int lightValue;
+public class LightProjectile : LightSender
+{   
 
     /// <summary>
     /// direction of projectile
@@ -30,7 +28,8 @@ public class LightProjectile : MonoBehaviour
     /// <summary>
     /// duration (in ticks) of projectile.
     /// </summary>
-    public float duration;
+    public float maxDuration;
+    private float duration;
 
     /// <summary>
     /// flag for halting motion
@@ -39,28 +38,29 @@ public class LightProjectile : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    private void Start()
+    public override void Init()
     {
+        base.Init();
+        InitState();
+
         expiring = false;
         //lol quaternions
-        direction = Vector2.right * (float)Math.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z); 
+        direction = Vector2.right * (float)Math.Cos(Mathf.Deg2Rad * transform.rotation.eulerAngles.z);
         transform.rotation = Quaternion.identity; // realigns gameobject to have 0 rotation (prolly not needed
         //Debug.Log("Direction: " + direction);
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = direction * speed;
-
     }
-
-
-    void Update()
-    {   
-        if(!expiring)
+    public override void MakeUpdate()
+    {
+        if (!expiring)
         {
             if (duration <= 0)
             {
                 Expire();
             }
             duration -= Time.deltaTime;
+            FadeLight();
         }
     }
 
@@ -79,6 +79,11 @@ public class LightProjectile : MonoBehaviour
         Expire();
     }
 
+    private void InitState()
+    {
+        duration = maxDuration;
+    }
+
     /// <summary>
     /// Called when the projectile has exceeded its duration. Currently destroys the object.
     /// </summary>
@@ -86,6 +91,15 @@ public class LightProjectile : MonoBehaviour
     {
         expiring = true;
         Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// Fades the light's intensity and size based on lifespan (duration)
+    /// </summary>
+    private void FadeLight()
+    {
+        float t = Mathf.Sqrt(duration / maxDuration);
+        SetLightStrengthLerp(t);
     }
 
     

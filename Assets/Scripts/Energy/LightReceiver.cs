@@ -26,11 +26,11 @@ public abstract class LightReceiver : MonoBehaviour
     //    }
     //}
 
-    public void Intake(LightProjectile lightProjectile)
+    public void Intake(LightSender lightSender)
     {
         if (curLight < lightTreshold)
         {
-            curLight += lightProjectile.lightValue;
+            curLight += lightSender.GetLightValue();
             if (curLight >= lightTreshold)
             {
                 Activate();

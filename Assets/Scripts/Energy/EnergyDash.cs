@@ -44,11 +44,6 @@ public class EnergyDash : EnergyMove
 
     protected override void MoveUpdate()
     {
-
-    }
-
-    protected override void MoveFixedUpdate()
-    {
         if (dashing)
         {
             if (remainingDuration > 0)
@@ -62,6 +57,16 @@ public class EnergyDash : EnergyMove
                 dashing = false; // flag to stop continuously calling this
             }
         }
+    }
+
+    protected override void MoveFixedUpdate()
+    {
+
+    }
+
+    protected override bool CanUse()
+    {
+        return cooldownRemaining <= 0 && Player.Instance.canDash;
     }
 
     protected override void Initialize()
