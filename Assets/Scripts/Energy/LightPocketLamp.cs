@@ -21,6 +21,7 @@ public class LightPocketLamp : LightSender
     /// Collides with light to determine
     /// </summary>
     [SerializeField] CircleCollider2D effectiveLightCol;
+    private float maxEffectRadius;
 
     public override void Init()
     {
@@ -29,6 +30,7 @@ public class LightPocketLamp : LightSender
         effectiveLightCol = GetComponent<CircleCollider2D>();
         Physics2D.IgnoreCollision(colComp, Player.Instance.GetComponent<Collider2D>());
         duration = maxDuration;
+        maxEffectRadius = effectiveLightCol.radius;
     }
 
     public override void MakeUpdate()
@@ -38,6 +40,12 @@ public class LightPocketLamp : LightSender
             duration -= Time.deltaTime;
             SetLightStrengthLerp(duration / maxDuration);
         }
+    }
+
+    public override void SetLightStrengthLerp(float interpolator)
+    {
+        base.SetLightStrengthLerp(interpolator);
+        effectiveLightCol.radius = Mathf.Lerp(0, maxEffectRadius, interpolator);
     }
 
     private void OnDrawGizmos()
