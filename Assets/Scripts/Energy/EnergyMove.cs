@@ -15,13 +15,13 @@ public abstract class EnergyMove : MonoBehaviour
 
 
     /// <summary>
-    /// How many ticks before move can be used again.
+    /// How many seconds before move can be used again.
     /// </summary>
-    [Tooltip("Cooldown in quantities of ticks")]
-    public int cooldown;
+    [Tooltip("Cooldown in seconds")]
+    public float cooldown;
 
     // TODO: Should we use cooldowns or a CanUse flag for when after ur grounded?
-    protected int cooldownRemaining;
+    protected float cooldownRemaining;
     
     /// <summary>
     /// field for if we want moves to have a one time use until a condition is met (regrounded or such)
@@ -58,7 +58,7 @@ public abstract class EnergyMove : MonoBehaviour
     {
         if(cooldownRemaining > 0)
         {
-            cooldownRemaining--;
+            cooldownRemaining -= Time.deltaTime;
         }
 
         
@@ -84,7 +84,7 @@ public abstract class EnergyMove : MonoBehaviour
 
     protected bool CanUse()
     {
-        return cooldownRemaining == 0 && Player.Instance.canDash;
+        return cooldownRemaining <= 0 && Player.Instance.canDash;
         // return !consumed;
     }
 

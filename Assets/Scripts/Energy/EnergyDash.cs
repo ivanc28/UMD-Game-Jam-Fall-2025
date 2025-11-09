@@ -11,13 +11,13 @@ public class EnergyDash : EnergyMove
     [Tooltip("Speed of dash")]
     public float speed;
     [Tooltip("Duration (in ticks) of dash")]
-    public int duration;
+    public float duration;
     public GameObject projectilePrefab;
 
     private Vector2 direction;
     private Player player;
     private Rigidbody2D playerRb;
-    private int remainingDuration;
+    private float remainingDuration;
     private bool dashing;
 
 
@@ -53,7 +53,7 @@ public class EnergyDash : EnergyMove
         {
             if (remainingDuration > 0)
             {
-                remainingDuration--;
+                remainingDuration -= Time.deltaTime;
             }
             else
             {

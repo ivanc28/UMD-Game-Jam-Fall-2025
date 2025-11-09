@@ -60,7 +60,7 @@ public class LightProjectile : MonoBehaviour
             {
                 Expire();
             }
-            duration--;
+            duration -= Time.deltaTime;
         }
     }
 

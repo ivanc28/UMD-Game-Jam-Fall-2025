@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] float moveSpeed;
     public int dir;
     bool canMove;
+    [HideInInspector] public bool canDash;
     [Header("Jumping")]
     [SerializeField] float jumpSpeed;
     [SerializeField] float stopJumpSpeed;
@@ -20,7 +21,6 @@ public class Player : MonoBehaviour
     [SerializeField] public float defaultGravity;
     [SerializeField] float fallingGravity;
 
-    [HideInInspector] public bool canDash;
     [Header("Coyote Time")]
     bool canCoyoteJump;
     [SerializeField] float setCoyoteTime;

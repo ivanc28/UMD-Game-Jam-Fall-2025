@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightValue: 10
-  speed: 20
-  duration: 100
+  speed: 35
+  duration: 1
 --- !u!114 &155581655236493824
 MonoBehaviour:
   m_ObjectHideFlags: 0
