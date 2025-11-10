@@ -61,7 +61,7 @@ public class EnergyLamp : EnergyMove
         // return !consumed;
     }
 
-    protected override bool CanDeactivate()
+    protected override bool EscapeEnergyDeplete()
     {
         return isPlaced;
     }

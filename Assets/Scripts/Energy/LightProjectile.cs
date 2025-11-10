@@ -41,7 +41,7 @@ public class LightProjectile : LightSender
     public override void Init()
     {
         base.Init();
-        InitState();
+        duration = maxDuration;
 
         expiring = false;
         //lol quaternions
@@ -77,11 +77,6 @@ public class LightProjectile : LightSender
         }
         Debug.Log("Nope");
         Expire();
-    }
-
-    private void InitState()
-    {
-        duration = maxDuration;
     }
 
     /// <summary>

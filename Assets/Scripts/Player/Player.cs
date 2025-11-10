@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     [SerializeField] float setCoyoteTime;
     float coyoteTimer;
 
+    private bool isRestoringEnergy = false;
+
     [Header("Components")]
     Rigidbody2D rb;
 
@@ -113,10 +115,28 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (isRestoringEnergy)
+        {
+            EnergyMeter.Instance().Recover();
+        }
+    }
+
     // Collision detection (isTriggers)
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.gameObject.CompareTag("EnergyRestorer"))
+        {
+            isRestoringEnergy = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("EnergyRestorer"))
+        {
+            isRestoringEnergy = false;
+        }
     }
 
     // View Gizmos in editor

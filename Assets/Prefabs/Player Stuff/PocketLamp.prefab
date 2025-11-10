@@ -186,7 +186,7 @@ MonoBehaviour:
   disableLightSend: 0
   lightComp: {fileID: 5470660897459219764}
   maxLightValue: 20
-  maxDuration: 10
+  maxDuration: 5
   effectiveLightCol: {fileID: 1443878454023245297}
 --- !u!61 &3271453469134890116
 BoxCollider2D:

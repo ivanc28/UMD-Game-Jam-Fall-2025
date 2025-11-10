@@ -46,7 +46,7 @@ public abstract class EnergyMove : MonoBehaviour
 
     public void Update()
     {
-        if (Input.GetKeyDown(key) && CanUse() && (CanDeactivate() || EnergyMeter.Instance().Deplete(energyCost)))
+        if (Input.GetKeyDown(key) && CanUse() && (EscapeEnergyDeplete() || EnergyMeter.Instance().Deplete(energyCost)))
         {
             ResetCooldown();
             Activate();
@@ -88,7 +88,11 @@ public abstract class EnergyMove : MonoBehaviour
         // return !consumed;
     }
 
-    protected virtual bool CanDeactivate()
+    /// <summary>
+    /// Allows the call of Activate() without depleting energy
+    /// </summary>
+    /// <returns></returns>
+    protected virtual bool EscapeEnergyDeplete()
     {
         return false;
     }
