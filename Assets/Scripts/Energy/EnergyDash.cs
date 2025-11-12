@@ -36,8 +36,8 @@ public class EnergyDash : EnergyMove
 
         playerRb.velocity = direction * speed;
 
-        Debug.Log("Calculated rotation is:" + rotation.eulerAngles.z);
-        Debug.Log("Shooting Projectile in direction:" + Vector2.right * (float)Math.Cos(Mathf.Deg2Rad *rotation.eulerAngles.z));
+        //Debug.Log("Calculated rotation is:" + rotation.eulerAngles.z);
+        //Debug.Log("Shooting Projectile in direction:" + Vector2.right * (float)Math.Cos(Mathf.Deg2Rad *rotation.eulerAngles.z));
         GameObject proj = Instantiate(projectilePrefab, transform.position, rotation);
 
     }

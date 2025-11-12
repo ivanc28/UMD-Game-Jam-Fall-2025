@@ -42,6 +42,14 @@ public class LightPocketLamp : LightSender
         }
     }
 
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        LightReceiver receiver = collision.gameObject.GetComponent<LightReceiver>();
+        if (receiver != null)
+        {
+            receiver.Intake(this);
+        }
+    }
     public override void SetLightStrengthLerp(float interpolator)
     {
         base.SetLightStrengthLerp(interpolator);

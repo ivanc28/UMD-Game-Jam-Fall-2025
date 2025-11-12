@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3271453469134890116}
   - component: {fileID: 6830546359203418452}
   - component: {fileID: 1443878454023245297}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PocketLamp
   m_TagString: Untagged
   m_Icon: {fileID: 0}

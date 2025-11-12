@@ -73,9 +73,9 @@ public class LightProjectile : LightSender
         if (receiver != null)
         {
             receiver.Intake(this);
-            Debug.Log("Hello?");
+            //Debug.Log("Hello?");
         }
-        Debug.Log("Nope");
+        //Debug.Log("Nope");
         Expire();
     }
 
