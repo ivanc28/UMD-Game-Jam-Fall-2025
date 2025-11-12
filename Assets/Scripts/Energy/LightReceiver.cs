@@ -21,7 +21,7 @@ public class LightReceiver : MonoBehaviour
     /// Duration in seconds
     /// </summary>
     [Tooltip("Duration in seconds")]
-    public float activateDuration;
+    public float activateDuration = 5;
     [Tooltip("LightActor object that will activate when this receiver receivse enough light")]
     public LightActor actor;
     private float duration;
