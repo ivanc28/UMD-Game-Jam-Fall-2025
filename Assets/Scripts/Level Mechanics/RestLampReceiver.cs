@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RestLampReceiver : LightReceiver
+public class RestLampReceiver : LightActor
 {
     public GameObject lights;
     public bool lightsOn;
 
     // Start is called before the first frame update
-    public override void Init()
+    public void Start()
     {
-        base.Init();
-        lightTreshold = Player.Instance.GetComponent<EnergyRest>().energyCost;
         lights.SetActive(false);
         lightsOn = false;
     }
@@ -20,5 +18,11 @@ public class RestLampReceiver : LightReceiver
     {
         lights.SetActive(true);
         lightsOn = true;
+    }
+
+    public override void Deactivate()
+    {
+        lights.SetActive(false);
+        lightsOn = false;
     }
 }

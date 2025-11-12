@@ -8,16 +8,17 @@ using UnityEngine.UIElements;
 /// If we want to use this seriously, gotta add gizmos and such to better design target position
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
-public class MovingPlatformReceiver : LightReceiver
+public class MovingPlatformReceiver : LightActor
 {
-    Vector2 initialPosition;
     public Vector2 finalDisplacement;
     public float moveSpeed;
+    
+    Vector2 initialPosition;
     Vector2 finalPosition;
     Vector2 direction;
     Rigidbody2D rb;
 
-    public override void Init()
+    public void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         initialPosition = rb.position;
@@ -41,6 +42,11 @@ public class MovingPlatformReceiver : LightReceiver
                 rb.position = finalPosition;
             }
         }
+    }
+
+    public override void Deactivate()
+    {
+        
     }
 
 }

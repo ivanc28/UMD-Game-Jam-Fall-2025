@@ -2,29 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script for all objects that will collide with lightSenders.
+/// Once they receive a lightSender with lightValue at or above the lightThreshold, they will activate the LightActor field.
+/// If you want a gameobject to be both a LightReceiver and LightActor, put both scripts as components and set this script's actor 
+/// as itself.
+/// </summary>
 [RequireComponent(typeof(Collider2D))]
-public abstract class LightReceiver : MonoBehaviour
+public class LightReceiver : MonoBehaviour
 {
-    public int lightTreshold;
-    private int curLight;
+    /// <summary>
+    /// lightvalue to activate actor
+    /// </summary>
+    [Tooltip("lightvalue to activate actor")]
+    public int lightTreshold = 10;
+
+    /// <summary>
+    /// Duration in seconds
+    /// </summary>
+    [Tooltip("Duration in seconds")]
+    public float activateDuration;
+    [Tooltip("LightActor object that will activate when this receiver receivse enough light")]
+    public LightActor actor;
+    private float duration;
+    public bool permanent;
+    private bool activated;
 
     public void Start()
     {
-        curLight = 0;
         Init();
     }
 
     public virtual void Init() { }
 
-    //public void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    Debug.Log("Received?");
-    //    LightProjectile lightProjectile = collision.gameObject.GetComponent<LightProjectile>();
-    //    if (lightProjectile != null)
-    //    {
-    //        Intake(lightProjectile);
-    //    }
-    //}
+    public void Update()
+    {
+        if (!permanent && activated)
+        {
+            duration -= Time.deltaTime;
+            if (duration <= 0)
+            {
+                activated = false;
+                actor.Deactivate();
+            }
+        }
+    }
 
     // TODO: Rework so that it doesn't accumulate light, but instead activates once enough light is immediately sent?
     // Could change to this
@@ -32,14 +54,19 @@ public abstract class LightReceiver : MonoBehaviour
     {
         if (lightSender.GetLightValue() >= lightTreshold)
         {
-            Activate();
+            actor.Activate();
+            duration = activateDuration;
+            activated = true;
+
         }
     }
     public void Intake(int lightValue)
     {
         if (lightValue >= lightTreshold)
         {
-            Activate();
+            actor.Activate();
+            duration = activateDuration;
+            activated = true;
         }
     }
     //public void Intake(LightSender lightSender)
@@ -68,5 +95,5 @@ public abstract class LightReceiver : MonoBehaviour
     /// Optional to implement a Deactivate method, like once a timer expires
     /// </summary>
     public virtual void Deactivate() { }
-    public abstract void Activate();
+    //public abstract void Activate();
 }

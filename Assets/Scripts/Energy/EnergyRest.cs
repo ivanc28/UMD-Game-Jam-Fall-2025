@@ -12,7 +12,7 @@ public class EnergyRest : EnergyMove
             // If the rest lamp hasn't been activated yet, we activate it
             if (!receiver.lightsOn)
             {
-                receiver.Intake(energyCost);
+                receiver.Activate();
             }
         }
     }
