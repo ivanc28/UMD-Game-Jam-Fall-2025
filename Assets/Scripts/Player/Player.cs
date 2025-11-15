@@ -29,7 +29,9 @@ public class Player : MonoBehaviour
     private bool isRestoringEnergy = false;
 
     [Header("Components")]
-    Rigidbody2D rb;
+    [HideInInspector] public Rigidbody2D rb;
+    private Animator playerAnim;
+    Vector3 playerScale;
 
     // Singleton
     private static Player instance;
@@ -46,26 +48,36 @@ public class Player : MonoBehaviour
     {
         coyoteTimer = setCoyoteTime;
         rb = GetComponent<Rigidbody2D>();
+        playerAnim = GetComponent<Animator>();
         dir = 1;
         canMove = true;
+        playerScale = transform.localScale;
     }
 
     // Update is called once per frame
     void Update()
     {
         // Movement
-        if(canMove) {
+        if (canMove) {
             rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y);
             // Set direction
             if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
                 SetDir(1);
+                playerAnim.SetBool("isRunning", true);
             }
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
                 SetDir(-1);
+                playerAnim.SetBool("isRunning", true);                
             }
         }
+        if (Input.GetAxisRaw("Horizontal") == 0 || !canMove)
+        {
+            playerAnim.SetBool("isRunning", false);
+        }
+        // Flip player sprite direction
+        transform.localScale = new Vector3(dir * playerScale.x, playerScale.y, playerScale.z);
 
         // On the ground if player's feet is touching object with 'Ground' layer
         grounded = Physics2D.OverlapCircle(feetPos.position, circleRadius, groundObjects);

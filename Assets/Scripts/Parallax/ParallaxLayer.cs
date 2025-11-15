@@ -27,7 +27,7 @@ public class ParallaxLayer : MonoBehaviour
         {
             newPosition.x -= positionChangeX * (-parallaxAmount * 40) * (Time.deltaTime);
         }
-        if (moveVertical)
+        if (moveVertical /*&& Player.Instance.rb.velocity.y <= 0*/)
         {            
             newPosition.y -= positionChangeY * (-parallaxAmount * 40) * (Time.deltaTime);
         }
