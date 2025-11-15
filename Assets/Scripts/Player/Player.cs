@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
 
     [Header("Components")]
     [HideInInspector] public Rigidbody2D rb;
-    private Animator playerAnim;
+    [HideInInspector] public Animator playerAnim;
     Vector3 playerScale;
 
     // Singleton

@@ -24,6 +24,7 @@ public class EnergyDash : EnergyMove
     //TODO: grab direction as a vector to allow omnidirectional dashing. Gotta record some more input
     public override void Activate()
     {
+        Player.Instance.playerAnim.SetTrigger("dash");
         remainingDuration = duration;
         dashing = true;
         player.canDash = false;
