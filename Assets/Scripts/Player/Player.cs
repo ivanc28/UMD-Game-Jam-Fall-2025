@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
     [Header("Components")]
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Animator playerAnim;
+    [HideInInspector] public bool canSetFallTrigger;
     Vector3 playerScale;
 
     // Singleton
@@ -69,7 +70,7 @@ public class Player : MonoBehaviour
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
                 SetDir(-1);
-                playerAnim.SetBool("isRunning", true);                
+                playerAnim.SetBool("isRunning", true);              
             }
         }
         if (Input.GetAxisRaw("Horizontal") == 0 || !canMove)
@@ -115,10 +116,20 @@ public class Player : MonoBehaviour
             canCoyoteJump = true;
             // Reset Dash
             canDash = true;
+            canSetFallTrigger = false;
+            playerAnim.SetBool("isFalling", false);
         }
         else
         {
             coyoteTimer -= Time.deltaTime;
+        }
+        if(!grounded && rb.velocity.y < 0)
+        {
+            if(canSetFallTrigger == false)
+            {
+                playerAnim.SetBool("isFalling", true);                
+            }
+            canSetFallTrigger = true;
         }
 
         if(coyoteTimer < 0 || rb.velocity.y > 0)
