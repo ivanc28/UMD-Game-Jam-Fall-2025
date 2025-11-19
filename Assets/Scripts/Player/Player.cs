@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform feetPos;
     [SerializeField] public float defaultGravity;
     [SerializeField] float fallingGravity;
+    private bool isJumping;
 
     [Header("Coyote Time")]
     bool canCoyoteJump;
@@ -111,12 +112,13 @@ public class Player : MonoBehaviour
 
         if(grounded)
         {
+            isJumping = false;
             // Coyote Jump
             coyoteTimer = setCoyoteTime;
             canCoyoteJump = true;
             // Reset Dash
             canDash = true;
-            canSetFallTrigger = false;
+            canSetFallTrigger = true;
             playerAnim.SetBool("isFalling", false);
         }
         else
@@ -125,11 +127,11 @@ public class Player : MonoBehaviour
         }
         if(!grounded && rb.velocity.y < 0)
         {
-            if(canSetFallTrigger == false)
-            {
-                playerAnim.SetBool("isFalling", true);                
+            if(canSetFallTrigger == true)
+            { 
+                StartCoroutine(StartFallAnimAfterDelay(0.1f));   
             }
-            canSetFallTrigger = true;
+            canSetFallTrigger = false;
         }
 
         if(coyoteTimer < 0 || rb.velocity.y > 0)
@@ -173,11 +175,17 @@ public class Player : MonoBehaviour
     void Jump()
     {
         rb.velocity = Vector2.up * jumpSpeed;
+        isJumping = true;
+        // Animations
+        playerAnim.SetBool("isFalling", false);
+        canSetFallTrigger = true;
+        playerAnim.SetTrigger("jump");
     }
     // Player stops jumping
     void StopJump()
     {
         rb.velocity = new Vector2(rb.velocity.x, stopJumpSpeed);
+        isJumping = false;
     }
     // Set the direction the player is facing
     void SetDir(int direction)
@@ -199,4 +207,24 @@ public class Player : MonoBehaviour
     {
         canMove = false;
     }
+    private IEnumerator StartFallAnimAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (rb.velocity.y < 0)
+            playerAnim.SetBool("isFalling", true);
+        StartCoroutine(ResetAnim(0f, 0.25f));
+    }
+    private IEnumerator ResetAnim(float delayToResetAnim, float delayToResetTrigger)
+    {
+        yield return new WaitForSeconds(delayToResetAnim);
+        playerAnim.SetTrigger("reset");
+        if (isJumping)
+        {
+            playerAnim.ResetTrigger("reset");
+        }
+        yield return new WaitForSeconds(delayToResetTrigger);
+        playerAnim.ResetTrigger("reset");
+    }
+
+
 }
