@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     [Header("Jumping")]
     [SerializeField] float jumpSpeed;
     [SerializeField] float stopJumpSpeed;
-    bool grounded;
+    [HideInInspector] public bool grounded;
     [SerializeField] float circleRadius;
     [SerializeField] LayerMask groundObjects;
     [SerializeField] Transform feetPos;
