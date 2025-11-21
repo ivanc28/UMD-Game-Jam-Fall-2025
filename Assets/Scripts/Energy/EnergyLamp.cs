@@ -25,27 +25,12 @@ public class EnergyLamp : EnergyMove
     /// </summary>
     public float pickupDistance;
 
+    public float animationTime;
+
     public override void Activate()
-    {
-        if (isPlaced)
-        {
-            // Pick up the lamp if close enough, otherwise do nothing
-            GameObject lamp = FindObjectOfType<LightPocketLamp>().gameObject;
-            float dist = (lamp.transform.position - Player.Instance.transform.position).magnitude;
-            if (dist <= pickupDistance)
-            {
-                Destroy(lamp);
-                isPlaced = false;
-            }
-            
-        }
-        else
-        {
-            // Spawn a new lamp at the player's position, offset by placeDistance
-            Vector3 pos = new Vector3(Player.Instance.transform.position.x + placeDistance.x * Player.Instance.dir, Player.Instance.transform.position.y + placeDistance.y, 0);
-            Instantiate(pocketLampPrefab, pos, Quaternion.identity);
-            isPlaced = true;
-        }
+    {        
+        Player.Instance.playerAnim.SetTrigger("grab");
+        StartCoroutine(LampAction());
     }
     protected override void MoveUpdate()
     {
@@ -57,7 +42,7 @@ public class EnergyLamp : EnergyMove
     }
     protected override bool CanUse()
     {       
-        return cooldownRemaining <= 0 || isPlaced;
+        return Player.Instance.grounded && (cooldownRemaining <= 0 || isPlaced);
         // return !consumed;
     }
 
@@ -68,6 +53,33 @@ public class EnergyLamp : EnergyMove
     protected override void Initialize() 
     {
         
+    }
+    private IEnumerator LampAction()
+    {
+        Player.Instance.DisableMovementControl();
+        yield return new WaitForSeconds(animationTime);
+        if (isPlaced)
+        {
+            // Pick up the lamp if close enough, otherwise do nothing
+            GameObject lamp = FindObjectOfType<LightPocketLamp>().gameObject;
+            float dist = (lamp.transform.position - Player.Instance.transform.position).magnitude;
+            if (dist <= pickupDistance)
+            {
+                Destroy(lamp);
+                isPlaced = false;
+            }
+
+        }
+        else
+        {
+            // Spawn a new lamp at the player's position, offset by placeDistance
+            Vector3 pos = new Vector3(Player.Instance.transform.position.x + placeDistance.x * Player.Instance.dir, Player.Instance.transform.position.y + placeDistance.y, 0);
+            Instantiate(pocketLampPrefab, pos, Quaternion.identity);
+            isPlaced = true;
+        }
+        yield return new WaitForSeconds(animationTime);
+        Player.Instance.EnableMovementControl();
+
     }
 
 }

@@ -1849,7 +1849,7 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.786
+  m_FalloffIntensity: 0.641
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 1
@@ -3276,6 +3276,7 @@ MonoBehaviour:
   canDash: 0
   jumpSpeed: 16
   stopJumpSpeed: 0.4
+  grounded: 0
   circleRadius: 0.25
   groundObjects:
     serializedVersion: 2
@@ -3323,8 +3324,9 @@ MonoBehaviour:
   cooldown: 0.5
   canDeactivate: 1
   pocketLampPrefab: {fileID: 8146338951850487753, guid: 8a24ed4cbe4e2b6448a6f7b188b7e117, type: 3}
-  placeDistance: {x: 1.25, y: -0.5}
+  placeDistance: {x: 1, y: -0.5}
   pickupDistance: 3
+  animationTime: 0.4
 --- !u!114 &1441767035
 MonoBehaviour:
   m_ObjectHideFlags: 0
