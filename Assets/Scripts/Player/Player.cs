@@ -9,8 +9,10 @@ public class Player : MonoBehaviour
     [Header("Movement")]
     [SerializeField] float moveSpeed;
     public int dir;
-    bool canMove;
-    [HideInInspector] public bool canDash;
+    [SerializeField] bool canMove;
+    public bool canDash;
+    private Vector2 movingPlatformSpeed;
+    private bool onMovingPlatform = false;
     [Header("Jumping")]
     [SerializeField] float jumpSpeed;
     [SerializeField] float stopJumpSpeed;
@@ -33,8 +35,8 @@ public class Player : MonoBehaviour
     [HideInInspector] public bool isRestoringEnergy = false;
 
     [Header("Components")]
+    public Animator playerAnim;
     [HideInInspector] public Rigidbody2D rb;
-    [HideInInspector] public Animator playerAnim;
     [HideInInspector] public bool canSetFallTrigger;
     Vector3 playerScale;
 
@@ -53,10 +55,10 @@ public class Player : MonoBehaviour
     {
         coyoteTimer = setCoyoteTime;
         rb = GetComponent<Rigidbody2D>();
-        playerAnim = GetComponent<Animator>();
         dir = 1;
         canMove = true;
         playerScale = transform.localScale;
+        movingPlatformSpeed = Vector2.zero;
     }
 
     // Update is called once per frame
@@ -64,7 +66,14 @@ public class Player : MonoBehaviour
     {
         // Movement
         if (canMove) {
-            rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y);
+            if (onMovingPlatform)
+            {
+                rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed + movingPlatformSpeed.x, rb.velocity.y);
+            }
+            else if(!onMovingPlatform)
+            {
+                rb.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * moveSpeed, rb.velocity.y);
+            }
             // Set direction
             if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
@@ -74,8 +83,12 @@ public class Player : MonoBehaviour
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
                 SetDir(-1);
-                playerAnim.SetBool("isRunning", true);              
+                playerAnim.SetBool("isRunning", true);
             }
+        }
+        else if(!GetComponent<EnergyDash>().dashing)
+        {
+            rb.velocity = new Vector2(movingPlatformSpeed.x, rb.velocity.y);
         }
         if (Input.GetAxisRaw("Horizontal") == 0 || !canMove)
         {
@@ -157,6 +170,16 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("EnergyRestorer"))
         {
             isRestoringEnergy = true;
+        }        
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
+            StartCoroutine(AttachToPlatform(collision.transform));
+            transform.localScale = new Vector3(playerScale.x * dir, playerScale.y, playerScale.z);
+            movingPlatformSpeed = collision.gameObject.GetComponent<Rigidbody2D>().velocity;
+            onMovingPlatform = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -165,6 +188,18 @@ public class Player : MonoBehaviour
         {
             isRestoringEnergy = false;
         }
+        if (collision.gameObject.CompareTag("MovingPlatform"))
+        {
+            transform.SetParent(null);
+            transform.localScale = new Vector3(playerScale.x * dir, playerScale.y, playerScale.z);
+            movingPlatformSpeed = Vector2.zero;
+            onMovingPlatform = false;
+        }
+    }
+    IEnumerator AttachToPlatform(Transform platform)
+    {
+        yield return null; // wait 1 frame to avoid activation conflict
+        transform.SetParent(platform);
     }
 
     // View Gizmos in editor

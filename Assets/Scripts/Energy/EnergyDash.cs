@@ -18,7 +18,7 @@ public class EnergyDash : EnergyMove
     private Player player;
     private Rigidbody2D playerRb;
     private float remainingDuration;
-    private bool dashing;
+    public bool dashing;
 
 
     //TODO: grab direction as a vector to allow omnidirectional dashing. Gotta record some more input
