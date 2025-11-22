@@ -22,12 +22,15 @@ public class Player : MonoBehaviour
     [SerializeField] float fallingGravity;
     private bool isJumping;
 
+    [Header("Pocket Lamp")]
+    [HideInInspector] public bool hasLamp = true;
+
     [Header("Coyote Time")]
     bool canCoyoteJump;
     [SerializeField] float setCoyoteTime;
     float coyoteTimer;
 
-    private bool isRestoringEnergy = false;
+    [HideInInspector] public bool isRestoringEnergy = false;
 
     [Header("Components")]
     [HideInInspector] public Rigidbody2D rb;

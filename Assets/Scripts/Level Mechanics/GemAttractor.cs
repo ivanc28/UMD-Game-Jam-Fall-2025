@@ -11,6 +11,10 @@ public class GemAttractor : MonoBehaviour
     void Start()
     {
         //if (lampTransform == null) lampTransform = GetComponentInChildren<Transform>();
+        // Activate lights right away
+        RestLampReceiver receiver = gameObject.GetComponent<RestLampReceiver>();
+        if (receiver != null)
+            gameObject.GetComponent<RestLampReceiver>().Activate();
     }
 
     // Update is called once per frame

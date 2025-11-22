@@ -18,12 +18,21 @@ public class JumpPadActor : LightActor
 
     public override void Deactivate()
     {
-        isActive = true;
+        isActive = false;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(isActive)
+        UseJumpPad(collision);
+    }
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        UseJumpPad(collision);
+    }
+
+    private void UseJumpPad(Collider2D collision)
+    {
+        if (isActive)
         {
             Player player = collision.gameObject.GetComponent<Player>();
             if (player != null)
@@ -31,6 +40,7 @@ public class JumpPadActor : LightActor
                 Vector3 plrVel = player.GetComponent<Rigidbody2D>().velocity;
                 plrVel.y = jumpStrength;
                 player.GetComponent<Rigidbody2D>().velocity = plrVel;
+                player.playerAnim.SetTrigger("jump");
             }
         }
     }

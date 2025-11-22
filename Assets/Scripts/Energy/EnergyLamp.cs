@@ -57,17 +57,23 @@ public class EnergyLamp : EnergyMove
     private IEnumerator LampAction()
     {
         Player.Instance.DisableMovementControl();
+        Player.Instance.rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(animationTime);
         if (isPlaced)
         {
-            // Pick up the lamp if close enough, otherwise do nothing
+            // Pick up the lamp if close enough/under a light, otherwise do nothing
             GameObject lamp = FindObjectOfType<LightPocketLamp>().gameObject;
             float dist = (lamp.transform.position - Player.Instance.transform.position).magnitude;
-            if (dist <= pickupDistance)
+            if (dist <= pickupDistance || Player.Instance.isRestoringEnergy)
             {
                 Destroy(lamp);
                 isPlaced = false;
+                if (Player.Instance.isRestoringEnergy)
+                {
+                    // TODO: Show lamp has returned to player
+                }
             }
+
 
         }
         else
