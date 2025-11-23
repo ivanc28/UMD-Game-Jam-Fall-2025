@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundLibrary : MonoBehaviour
 {
-    public GameObject walkStone;
+    public GameObject lampOn;
 
     private static SoundLibrary instance;
     public static SoundLibrary Instance

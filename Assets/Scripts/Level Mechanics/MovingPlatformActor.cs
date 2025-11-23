@@ -18,6 +18,7 @@ public class MovingPlatformActor : LightActor
     private Vector3 targetPosition;
     private Rigidbody2D rb;
     private AudioSource movingSFX;
+    private float initVolume;
 
     public void Start()
     {
@@ -26,6 +27,7 @@ public class MovingPlatformActor : LightActor
         movingSFX = GetComponent<AudioSource>();
         rb.isKinematic = true;
         targetPosition = initialPosition;
+        initVolume = movingSFX.volume;
 
     }
 
@@ -37,7 +39,7 @@ public class MovingPlatformActor : LightActor
             if (PlatformOvershot()) 
             {
                 SetPosToFinal();
-            }
+            }            
             TryToPlaySFX();
         }
     }
@@ -53,7 +55,6 @@ public class MovingPlatformActor : LightActor
         Vector3 vel = (finalPosition - transform.position).normalized * speed;
         targetPosition = finalPosition;
         rb.velocity = vel;
-        TryToPlaySFX();
     }
 
     public override void Deactivate()
@@ -72,18 +73,26 @@ public class MovingPlatformActor : LightActor
     {
         transform.position = targetPosition;
         rb.velocity = Vector2.zero;
-        StartCoroutine(FadeOutSFX(movingSFX, 0.5f));
+        StartCoroutine(FadeOutSFX(movingSFX, 0.35f));
     }
     private void TryToPlaySFX()
     {
         if (!movingSFX.isPlaying)
         {
-            movingSFX.pitch = Random.Range(0.8f, 1.2f);
+            if (activatedLight.enabled)
+            {
+                movingSFX.volume = initVolume;
+            }
+            else
+            {
+                movingSFX.volume = initVolume / 2;
+            }
+            movingSFX.pitch = Random.Range(0.9f, 1.1f);
             movingSFX.Play();
         }
     }
     IEnumerator FadeOutSFX(AudioSource audioSource, float duration)
-    {
+    {  
         float startVolume = audioSource.volume;
 
         while (audioSource.volume > 0)
@@ -94,6 +103,6 @@ public class MovingPlatformActor : LightActor
 
         audioSource.volume = 0f;
         audioSource.Stop();
-        audioSource.volume = startVolume;
+        audioSource.volume = initVolume;
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6778370758635939986}
   - component: {fileID: 266096274829262193}
   m_Layer: 0
-  m_Name: WalkSFX
+  m_Name: RestLampOnSFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +43,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 68ebd559bd7d4474980fa6a99ed6145d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -141,7 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87f839b255d2af8409cb016c70930258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomPitch: 0
-  minPitch: 0
-  maxPitch: 0
-  clips: []
+  randomPitch: 1
+  minPitch: 0.85
+  maxPitch: 1.15
+  clips:
+  - {fileID: 8300000, guid: 68ebd559bd7d4474980fa6a99ed6145d, type: 3}

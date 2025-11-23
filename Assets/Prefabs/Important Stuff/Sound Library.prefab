@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b8d6394b82e0a45a6a56ac5c0e6d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkStone: {fileID: 8903224483810898913, guid: 4181f659c6015224391ebb79ce8a709e, type: 3}
+  lampOn: {fileID: 8903224483810898913, guid: 4181f659c6015224391ebb79ce8a709e, type: 3}
