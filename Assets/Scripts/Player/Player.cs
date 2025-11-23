@@ -35,6 +35,10 @@ public class Player : MonoBehaviour
 
     [HideInInspector] public bool isRestoringEnergy = false;
 
+    [Header("Sound Effects")]
+    [SerializeField] AudioSource walkSFX;
+    [SerializeField] AudioClip[] walkSoundClips;
+
     [Header("Components")]
     public Animator playerAnim;
     [HideInInspector] public Rigidbody2D rb;
@@ -80,11 +84,19 @@ public class Player : MonoBehaviour
             {
                 SetDir(1);
                 playerAnim.SetBool("isRunning", true);
+                if (grounded)
+                {
+                    PlayWalkSFX();
+                }
             }
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
                 SetDir(-1);
                 playerAnim.SetBool("isRunning", true);
+                if (grounded)
+                {
+                    PlayWalkSFX();
+                }
             }
         }
         else if(!GetComponent<EnergyDash>().dashing)
@@ -259,6 +271,19 @@ public class Player : MonoBehaviour
     {
         canMove = false;
     }
+
+    // Sounds
+    private void PlayWalkSFX()
+    {
+        if (!walkSFX.isPlaying)
+        {
+            walkSFX.clip = walkSoundClips[UnityEngine.Random.Range(0, walkSoundClips.Length)];
+            walkSFX.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+            walkSFX.Play();
+        }
+    }
+    
+    // Animations
     private IEnumerator StartFallAnimAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
