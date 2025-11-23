@@ -9835,6 +9835,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 626086999}
     m_Modifications:
+    - target: {fileID: 727776005083169966, guid: 23ef0ef84ad8de741b6ab72497ba25be, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 727776005083169966, guid: 23ef0ef84ad8de741b6ab72497ba25be, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1109503003
+      objectReference: {fileID: 0}
     - target: {fileID: 4328414616487663150, guid: 23ef0ef84ad8de741b6ab72497ba25be, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -9918,6 +9926,14 @@ PrefabInstance:
     - target: {fileID: 6385202468020272757, guid: 23ef0ef84ad8de741b6ab72497ba25be, type: 3}
       propertyPath: m_Name
       value: EnergyMeter
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912178645420417977, guid: 23ef0ef84ad8de741b6ab72497ba25be, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912178645420417977, guid: 23ef0ef84ad8de741b6ab72497ba25be, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1109503003
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
