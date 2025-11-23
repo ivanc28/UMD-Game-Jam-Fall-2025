@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class BigLamp : MonoBehaviour
 {
-    const int GEM_COUNT = 3;
-    private int curGemCount = 0;
+    public const int GEM_COUNT = 3;
+    public int curGemCount { get; private set; } = 0;
 
     private Collider2D lampCollider;
     
