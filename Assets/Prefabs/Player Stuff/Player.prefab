@@ -358,7 +358,7 @@ GameObject:
   - component: {fileID: 7998327725996597608}
   - component: {fileID: 1077761298699532595}
   - component: {fileID: 9201027320305953220}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: GemAttractor
   m_TagString: Untagged
   m_Icon: {fileID: 0}

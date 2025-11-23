@@ -17,11 +17,13 @@ public class MovingPlatformActor : LightActor
     private Vector3 initialPosition;
     private Vector3 targetPosition;
     private Rigidbody2D rb;
+    private AudioSource movingSFX;
 
     public void Start()
     {
         initialPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
+        movingSFX = GetComponent<AudioSource>();
         rb.isKinematic = true;
         targetPosition = initialPosition;
 
@@ -36,6 +38,7 @@ public class MovingPlatformActor : LightActor
             {
                 SetPosToFinal();
             }
+            TryToPlaySFX();
         }
     }
 
@@ -50,6 +53,7 @@ public class MovingPlatformActor : LightActor
         Vector3 vel = (finalPosition - transform.position).normalized * speed;
         targetPosition = finalPosition;
         rb.velocity = vel;
+        TryToPlaySFX();
     }
 
     public override void Deactivate()
@@ -68,5 +72,28 @@ public class MovingPlatformActor : LightActor
     {
         transform.position = targetPosition;
         rb.velocity = Vector2.zero;
+        StartCoroutine(FadeOutSFX(movingSFX, 0.5f));
+    }
+    private void TryToPlaySFX()
+    {
+        if (!movingSFX.isPlaying)
+        {
+            movingSFX.pitch = Random.Range(0.8f, 1.2f);
+            movingSFX.Play();
+        }
+    }
+    IEnumerator FadeOutSFX(AudioSource audioSource, float duration)
+    {
+        float startVolume = audioSource.volume;
+
+        while (audioSource.volume > 0)
+        {
+            audioSource.volume -= startVolume * Time.deltaTime / duration;
+            yield return null;
+        }
+
+        audioSource.volume = 0f;
+        audioSource.Stop();
+        audioSource.volume = startVolume;
     }
 }

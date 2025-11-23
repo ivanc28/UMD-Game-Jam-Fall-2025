@@ -41,7 +41,9 @@ public class MovingPlatformReceiver : LightActor
                 rb.velocity = Vector2.zero;
                 rb.position = finalPosition;
             }
+            
         }
+
     }
 
     public override void Deactivate()
