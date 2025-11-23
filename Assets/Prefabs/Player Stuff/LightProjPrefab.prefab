@@ -162,10 +162,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d813d209e0091a48a2ad008fc90909d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableLightSend: 0
+  lightComp: {fileID: 2015042595483619598}
   maxLightValue: 15
   speed: 35
-  maxDuration: 0.5
-  lightComp: {fileID: 2015042595483619598}
+  maxDuration: 1
 --- !u!1 &2032154819822228395
 GameObject:
   m_ObjectHideFlags: 0

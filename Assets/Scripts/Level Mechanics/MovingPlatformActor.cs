@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UIElements;
 
 /// <summary>
@@ -12,6 +13,7 @@ public class MovingPlatformActor : LightActor
 {
     public Vector3 finalPosition;
     public float speed;
+    public Light2D activatedLight;
     private Vector3 initialPosition;
     private Vector3 targetPosition;
     private Rigidbody2D rb;
@@ -39,6 +41,7 @@ public class MovingPlatformActor : LightActor
 
     public override void Activate()
     {
+        activatedLight.enabled = true;
         if (PlatformOvershot())
         {
             SetPosToFinal();
@@ -51,6 +54,7 @@ public class MovingPlatformActor : LightActor
 
     public override void Deactivate()
     {
+        activatedLight.enabled = false;
         Vector3 vel = (initialPosition - targetPosition).normalized * speed;
         targetPosition = initialPosition;
         rb.velocity = vel;
@@ -65,5 +69,4 @@ public class MovingPlatformActor : LightActor
         transform.position = targetPosition;
         rb.velocity = Vector2.zero;
     }
-
 }

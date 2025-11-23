@@ -69,7 +69,7 @@ public class EnergyDash : EnergyMove
 
     protected override bool CanUse()
     {
-        return cooldownRemaining <= 0 && Player.Instance.canDash;
+        return Player.Instance.dashAcquired && cooldownRemaining <= 0 && Player.Instance.canDash;
     }
 
     protected override void Initialize()

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EnergyRestorer
   - MovingPlatform
+  - DashAbility
   layers:
   - Default
   - TransparentFX

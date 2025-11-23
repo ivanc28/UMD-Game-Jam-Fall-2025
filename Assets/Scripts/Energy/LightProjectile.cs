@@ -93,7 +93,7 @@ public class LightProjectile : LightSender
     /// </summary>
     private void FadeLight()
     {
-        float t = Mathf.Sqrt(duration / maxDuration);
+        float t = 1;
         SetLightStrengthLerp(t);
     }
 

@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public bool canDash;
     private Vector2 movingPlatformSpeed;
     private bool onMovingPlatform = false;
+    public bool dashAcquired = false;
     [Header("Jumping")]
     [SerializeField] float jumpSpeed;
     [SerializeField] float stopJumpSpeed;
@@ -136,10 +137,12 @@ public class Player : MonoBehaviour
             canDash = true;
             canSetFallTrigger = true;
             playerAnim.SetBool("isFalling", false);
+            playerAnim.SetBool("grounded", true);
         }
         else
         {
             coyoteTimer -= Time.deltaTime;
+            playerAnim.SetBool("grounded", false);
         }
         if(!grounded && rb.velocity.y < 0)
         {
@@ -170,9 +173,22 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("EnergyRestorer"))
         {
             isRestoringEnergy = true;
-        }        
+        }
+        if (collision.gameObject.CompareTag("DashAbility"))
+        {
+            dashAcquired = true;
+            Destroy(collision.gameObject);
+        }
     }
-    private void OnTriggerStay2D(Collider2D collision)
+    
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("EnergyRestorer"))
+        {
+            isRestoringEnergy = false;
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("MovingPlatform"))
         {
@@ -182,12 +198,8 @@ public class Player : MonoBehaviour
             onMovingPlatform = true;
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("EnergyRestorer"))
-        {
-            isRestoringEnergy = false;
-        }
         if (collision.gameObject.CompareTag("MovingPlatform"))
         {
             transform.SetParent(null);
@@ -196,9 +208,10 @@ public class Player : MonoBehaviour
             onMovingPlatform = false;
         }
     }
+
     IEnumerator AttachToPlatform(Transform platform)
     {
-        yield return null; // wait 1 frame to avoid activation conflict
+        yield return new WaitForEndOfFrame(); ; // wait 1 frame to avoid activation conflict
         transform.SetParent(platform);
     }
 
@@ -218,6 +231,7 @@ public class Player : MonoBehaviour
         playerAnim.SetBool("isFalling", false);
         canSetFallTrigger = true;
         playerAnim.SetTrigger("jump");
+        StartCoroutine(ResetAnim(0.5f, 0.01f));
     }
     // Player stops jumping
     void StopJump()
@@ -249,8 +263,11 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         if (rb.velocity.y < 0)
+        {
             playerAnim.SetBool("isFalling", true);
-        StartCoroutine(ResetAnim(0f, 0.25f));
+            yield break;
+        }
+        StartCoroutine(ResetAnim(0f, 0.2f));
     }
     private IEnumerator ResetAnim(float delayToResetAnim, float delayToResetTrigger)
     {
