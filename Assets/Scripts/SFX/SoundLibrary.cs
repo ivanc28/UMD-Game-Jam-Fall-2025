@@ -10,6 +10,7 @@ public class SoundLibrary : MonoBehaviour
     public GameObject collectGem;
     public GameObject gemConnect;
     public GameObject gemConnect2;
+    public GameObject powerupPlatform;
 
     private static SoundLibrary instance;
     public static SoundLibrary Instance

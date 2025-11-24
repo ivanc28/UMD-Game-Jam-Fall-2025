@@ -35,6 +35,10 @@ public class EnergyRest : EnergyMove
         if(collision.gameObject.GetComponent<RestLampReceiver>() != null)
         {
             receiver = collision.gameObject.GetComponent<RestLampReceiver>();
+            if (receiver != null && !receiver.lightsOn)
+            {
+                GetComponent<ControlPopups>().canQ = true;
+            }
         }        
     }
     public void OnTriggerExit2D(Collider2D collision)
@@ -42,6 +46,7 @@ public class EnergyRest : EnergyMove
         if(collision.gameObject.GetComponent<RestLampReceiver>() != null)
         {
             receiver = null;
+            GetComponent<ControlPopups>().canQ = false;
         }
     }
 }

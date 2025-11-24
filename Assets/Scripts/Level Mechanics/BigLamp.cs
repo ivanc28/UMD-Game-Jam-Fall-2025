@@ -17,11 +17,17 @@ public class BigLamp : MonoBehaviour
     bool gameOver = false;
     [SerializeField] float endGameDelay;
     [SerializeField] Light2D platformLight;
+    float duration = 6.5f;
+    float stopwatch = 0;
+    float maxIntensity;
+    float maxOuterRadius;
+    bool canLightUp = false;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        maxIntensity = platformLight.intensity * 1.75f;
+        maxOuterRadius = platformLight.pointLightOuterRadius * 5;
     }
 
     // Update is called once per frame
@@ -31,6 +37,13 @@ public class BigLamp : MonoBehaviour
         {            
             gameOver = true;
             StartCoroutine(DelayUpdateGems(endGameDelay));
+            StartCoroutine(SoundPlayer.PlaySound(SoundLibrary.Instance.powerupPlatform, transform.position, 9));
+        }
+
+        if (gameOver && canLightUp)
+        {
+            stopwatch += Time.deltaTime;
+            SetLightStrengthLerp(stopwatch / duration, maxIntensity, maxOuterRadius);
         }
     }
 
@@ -67,9 +80,13 @@ public class BigLamp : MonoBehaviour
         cGem2.UpdateSpriteToActivated();
         cGem3.UpdateSpriteToActivated();
         platformSpriteRend.sprite = activatedPlatform;
-        platformLight.intensity *= 1.75f;
-        platformLight.pointLightOuterRadius *= 5;
-        yield return new WaitForSeconds(7);
+        canLightUp = true;
+        yield return new WaitForSeconds(9);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    public void SetLightStrengthLerp(float interpolator, float maxIntensity, float maxOuterRadius)
+    {
+        platformLight.intensity = Mathf.Lerp(0, maxIntensity, interpolator);
+        platformLight.pointLightOuterRadius = Mathf.Lerp(0, maxOuterRadius, interpolator);
     }
 }

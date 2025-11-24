@@ -214,6 +214,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("DashAbility"))
         {
             dashAcquired = true;
+            GetComponent<ControlPopups>().canShift = true;
             Destroy(collision.gameObject);
         }
     }
