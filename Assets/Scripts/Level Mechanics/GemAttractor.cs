@@ -30,7 +30,7 @@ public class GemAttractor : MonoBehaviour
         {
             if (gem.following == null)
             {                
-                StartCoroutine(SoundPlayer.PlaySound(SoundLibrary.Instance.collectGem, transform.position, 0.25f));
+                StartCoroutine(SoundPlayer.PlaySound(SoundLibrary.Instance.collectGem, transform.position, 1));
             }
             gem.following = lampTransform;
             if(finalAttractor)
