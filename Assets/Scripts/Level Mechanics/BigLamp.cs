@@ -51,7 +51,8 @@ public class BigLamp : MonoBehaviour
             {
                 cGem3.ActivateSpriteRenderer();
             }
-
+            StartCoroutine(SoundPlayer.PlaySound(SoundLibrary.Instance.gemConnect, transform.position, 1));
+            //StartCoroutine(SoundPlayer.PlaySound(SoundLibrary.Instance.gemConnect2, transform.position, 1));
             collision.gameObject.SetActive(false);
             curGemCount++;
             Console.WriteLine("Added a gem");

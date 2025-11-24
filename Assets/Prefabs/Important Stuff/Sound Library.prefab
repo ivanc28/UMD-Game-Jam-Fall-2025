@@ -48,3 +48,5 @@ MonoBehaviour:
   placeLamp: {fileID: 8903224483810898913, guid: aabbcd481736a544796f1a2b9939563c, type: 3}
   torchOn: {fileID: 8903224483810898913, guid: b022e631b20fcad4885ecea944524956, type: 3}
   collectGem: {fileID: 8903224483810898913, guid: 6db2fa0bdafd10542a467ead5433885e, type: 3}
+  gemConnect: {fileID: 8903224483810898913, guid: fcd2db691cff2574bbe9c8e367d1710b, type: 3}
+  gemConnect2: {fileID: 8903224483810898913, guid: 8ff519497e39e2e4f9304fd801c6273b, type: 3}

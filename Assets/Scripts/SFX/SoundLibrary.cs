@@ -8,6 +8,8 @@ public class SoundLibrary : MonoBehaviour
     public GameObject placeLamp;
     public GameObject torchOn;
     public GameObject collectGem;
+    public GameObject gemConnect;
+    public GameObject gemConnect2;
 
     private static SoundLibrary instance;
     public static SoundLibrary Instance
