@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
+//using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(MovingPlatformActor))]
-public class MovingPlatformHandle : Editor
+//[CustomEditor(typeof(MovingPlatformActor))]
+public class MovingPlatformHandle : MonoBehaviour
 {
     //Vector3 handlePos;
-    void OnSceneGUI()
-    {
-        Handles.color = Color.white;
-        MovingPlatformActor actor = (MovingPlatformActor)target;
-        Handles.DrawLine(actor.transform.position, actor.finalPosition);
-        actor.finalPosition = Handles.PositionHandle(actor.finalPosition, Quaternion.identity);
-    }
+    //void OnSceneGUI()
+    //{
+    //    Handles.color = Color.white;
+    //    MovingPlatformActor actor = (MovingPlatformActor)target;
+    //    Handles.DrawLine(actor.transform.position, actor.finalPosition);
+    //    actor.finalPosition = Handles.PositionHandle(actor.finalPosition, Quaternion.identity);
+    //}
 }

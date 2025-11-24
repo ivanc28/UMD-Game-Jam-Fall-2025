@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 /// <summary>
 /// Script for all objects that will collide with lightSenders.
@@ -28,6 +30,8 @@ public class LightReceiver : MonoBehaviour
     public bool permanent;
     private bool activated;
 
+    public Light2D activatedLight;
+
     public void Start()
     {
         Init();
@@ -46,6 +50,18 @@ public class LightReceiver : MonoBehaviour
                 actor.Deactivate();
             }
         }
+        if(activatedLight != null)
+        {
+            if (activated)
+            {
+                activatedLight.enabled = true;
+            }
+            else
+            {
+                activatedLight.enabled = false;
+            }
+        }
+    
     }
 
     // TODO: Rework so that it doesn't accumulate light, but instead activates once enough light is immediately sent?

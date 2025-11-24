@@ -34,6 +34,8 @@ public class Gem : MonoBehaviour
     private Rigidbody2D rb;
     private Collider2D coll;
 
+    public int id;
+
     // Start is called before the first frame update
     void Start()
     {
