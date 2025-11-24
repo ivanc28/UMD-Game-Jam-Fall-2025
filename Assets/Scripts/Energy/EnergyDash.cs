@@ -20,6 +20,8 @@ public class EnergyDash : EnergyMove
     private float remainingDuration;
     public bool dashing;
 
+    [SerializeField] AudioSource dashSFX;
+
 
     //TODO: grab direction as a vector to allow omnidirectional dashing. Gotta record some more input
     public override void Activate()
@@ -30,7 +32,8 @@ public class EnergyDash : EnergyMove
         remainingDuration = duration;
         dashing = true;
         player.canDash = false;
-        
+        dashSFX.Play();
+
         player.DisableMovementControl();
         player.SetGravityScale(0);
 

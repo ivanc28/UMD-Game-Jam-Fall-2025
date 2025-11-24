@@ -28,6 +28,10 @@ public class GemAttractor : MonoBehaviour
         Gem gem = collision.gameObject.GetComponent<Gem>();
         if (gem != null && gem.attractable)
         {
+            if (gem.following == null)
+            {                
+                StartCoroutine(SoundPlayer.PlaySound(SoundLibrary.Instance.collectGem, transform.position, 0.25f));
+            }
             gem.following = lampTransform;
             if(finalAttractor)
             {

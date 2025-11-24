@@ -7,6 +7,7 @@ public class SoundLibrary : MonoBehaviour
     public GameObject lampOn;
     public GameObject placeLamp;
     public GameObject torchOn;
+    public GameObject collectGem;
 
     private static SoundLibrary instance;
     public static SoundLibrary Instance
