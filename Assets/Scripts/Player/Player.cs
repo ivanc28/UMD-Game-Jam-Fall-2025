@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -38,6 +39,9 @@ public class Player : MonoBehaviour
     [Header("Sound Effects")]
     [SerializeField] AudioSource walkSFX;
     [SerializeField] AudioClip[] walkSoundClips;
+    [SerializeField] AudioSource energyRestoreSFX;
+    bool canStopEnergySFX = true;
+    [SerializeField] AudioSource jumpSFX;
 
     [Header("Components")]
     public Animator playerAnim;
@@ -169,6 +173,27 @@ public class Player : MonoBehaviour
         {
             canCoyoteJump = false;
         }
+
+        // Energy restore sfx
+        if (isRestoringEnergy)
+        {
+            if (!energyRestoreSFX.isPlaying)
+            {
+                energyRestoreSFX.Play();
+                canStopEnergySFX = true;
+            }
+        }
+        else
+        {
+            if (energyRestoreSFX.isPlaying)
+            {
+                if (canStopEnergySFX)
+                {
+                    StartCoroutine(FadeOutSFX(energyRestoreSFX, 0.25f));
+                    canStopEnergySFX = false;
+                }
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -239,6 +264,7 @@ public class Player : MonoBehaviour
     {
         rb.velocity = Vector2.up * jumpSpeed;
         isJumping = true;
+        PlayJumpSFX();
         // Animations
         playerAnim.SetBool("isFalling", false);
         canSetFallTrigger = true;
@@ -282,7 +308,27 @@ public class Player : MonoBehaviour
             walkSFX.Play();
         }
     }
-    
+
+    private void PlayJumpSFX()
+    {
+        jumpSFX.pitch = UnityEngine.Random.Range(0.85f, 1.15f);
+        jumpSFX.Play();
+    }
+    IEnumerator FadeOutSFX(AudioSource audioSource, float duration)
+    {
+        float startVolume = audioSource.volume;
+
+        while (audioSource.volume > 0)
+        {
+            audioSource.volume -= startVolume * Time.deltaTime / duration;
+            yield return null;
+        }
+
+        audioSource.volume = 0f;
+        audioSource.Stop();
+        audioSource.volume = startVolume;
+    }
+
     // Animations
     private IEnumerator StartFallAnimAfterDelay(float delay)
     {
@@ -305,6 +351,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(delayToResetTrigger);
         playerAnim.ResetTrigger("reset");
     }
-
+ 
 
 }

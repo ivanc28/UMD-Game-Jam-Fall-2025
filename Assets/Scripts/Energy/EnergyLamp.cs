@@ -68,6 +68,7 @@ public class EnergyLamp : EnergyMove
             {
                 Destroy(lamp);
                 isPlaced = false;
+                StartCoroutine(SoundPlayer.PlaySound(SoundLibrary.Instance.placeLamp, transform.position, 0.25f));
                 if (Player.Instance.isRestoringEnergy)
                 {
                     // TODO: Show lamp has returned to player
@@ -82,6 +83,7 @@ public class EnergyLamp : EnergyMove
             Vector3 pos = new Vector3(Player.Instance.transform.position.x + placeDistance.x * Player.Instance.dir, Player.Instance.transform.position.y + placeDistance.y, 0);
             Instantiate(pocketLampPrefab, pos, Quaternion.identity);
             isPlaced = true;
+            StartCoroutine(SoundPlayer.PlaySound(SoundLibrary.Instance.placeLamp, transform.position, 0.25f));
         }
         yield return new WaitForSeconds(animationTime);
         Player.Instance.EnableMovementControl();

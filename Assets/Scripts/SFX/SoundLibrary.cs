@@ -5,6 +5,8 @@ using UnityEngine;
 public class SoundLibrary : MonoBehaviour
 {
     public GameObject lampOn;
+    public GameObject placeLamp;
+    public GameObject torchOn;
 
     private static SoundLibrary instance;
     public static SoundLibrary Instance

@@ -15,6 +15,10 @@ public class Torch : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            if(!lightComp.enabled)
+            {
+                StartCoroutine(SoundPlayer.PlaySound(SoundLibrary.Instance.torchOn, transform.position, 0.5f));
+            }
             lightComp.enabled = true;
             // TODO: Play lightup torch sound effect
         }
