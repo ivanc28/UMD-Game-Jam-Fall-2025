@@ -108,6 +108,8 @@ public class EnergyMeter : MonoBehaviour
         }
         else
         {
+            // play buzzer sound
+            StartCoroutine(SoundPlayer.PlaySound(SoundLibrary.Instance.noEnergy, Player.Instance.transform.position, 0.5f));
             return false;
         }
     }

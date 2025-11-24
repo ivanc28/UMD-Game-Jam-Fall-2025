@@ -11,6 +11,8 @@ public class SoundLibrary : MonoBehaviour
     public GameObject gemConnect;
     public GameObject gemConnect2;
     public GameObject powerupPlatform;
+    public GameObject noEnergy;
+    public GameObject dashEquip;
 
     private static SoundLibrary instance;
     public static SoundLibrary Instance

@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     [SerializeField] public float defaultGravity;
     [SerializeField] float fallingGravity;
     private bool isJumping;
+    [SerializeField] float maxFallSpeed;
 
     [Header("Pocket Lamp")]
     [HideInInspector] public bool hasLamp = true;
@@ -73,6 +74,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Max fall speed
+        if(rb.velocity.y < -maxFallSpeed)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -maxFallSpeed);
+        }
         // Movement
         if (canMove) {
             if (onMovingPlatform)
@@ -214,6 +220,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("DashAbility"))
         {
             dashAcquired = true;
+            StartCoroutine(SoundPlayer.PlaySound(SoundLibrary.Instance.dashEquip, transform.position, 1f));
             GetComponent<ControlPopups>().canShift = true;
             Destroy(collision.gameObject);
         }

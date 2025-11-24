@@ -27,10 +27,15 @@ public class EnergyLamp : EnergyMove
 
     public float animationTime;
 
+    private bool isActioning = false;
+
     public override void Activate()
     {        
         Player.Instance.playerAnim.SetTrigger("grab");
-        StartCoroutine(LampAction());
+        if (!isActioning)
+        {
+            StartCoroutine(LampAction());
+        }
     }
     protected override void MoveUpdate()
     {
@@ -58,6 +63,7 @@ public class EnergyLamp : EnergyMove
     {
         Player.Instance.DisableMovementControl();
         Player.Instance.rb.velocity = Vector2.zero;
+        isActioning = true;
         yield return new WaitForSeconds(animationTime);
         if (isPlaced)
         {
@@ -86,6 +92,7 @@ public class EnergyLamp : EnergyMove
             StartCoroutine(SoundPlayer.PlaySound(SoundLibrary.Instance.placeLamp, transform.position, 0.25f));
         }
         yield return new WaitForSeconds(animationTime);
+        isActioning = false;
         Player.Instance.EnableMovementControl();
 
     }

@@ -51,3 +51,5 @@ MonoBehaviour:
   gemConnect: {fileID: 8903224483810898913, guid: fcd2db691cff2574bbe9c8e367d1710b, type: 3}
   gemConnect2: {fileID: 8903224483810898913, guid: 8ff519497e39e2e4f9304fd801c6273b, type: 3}
   powerupPlatform: {fileID: 8903224483810898913, guid: 107aff33a9e8e8342a37f6cb7ad2617e, type: 3}
+  noEnergy: {fileID: 8903224483810898913, guid: be7c53203a4562e469752c101f120222, type: 3}
+  dashEquip: {fileID: 8903224483810898913, guid: 6ac3aa9ffa0f31a4daa78ef2ad506041, type: 3}
