@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
     {
         coyoteTimer = setCoyoteTime;
         rb = GetComponent<Rigidbody2D>();
-        dir = 1;
+        dir = -1;
         canMove = true;
         playerScale = transform.localScale;
         movingPlatformSpeed = Vector2.zero;
